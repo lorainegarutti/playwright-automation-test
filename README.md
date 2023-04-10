@@ -42,4 +42,5 @@ In order to run automated tests:
 
 GitHub CI:
 - `e2e.yml` will run all end-to-end tests with Playwright in every push or pull request to master branch;
-- If any test case fails, results and reports will be uploaded and will be available up to 7 days.
+- After each run reports will be uploaded and available up to 7 days;
+- All actions are available [here](https://github.com/lorainegarutti/playwright-automation-test/actions). And there is a PR opened to trigger the action, it's available [here](https://github.com/lorainegarutti/playwright-automation-test/actions/runs/4661916925) with artifacts.
