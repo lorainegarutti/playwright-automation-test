@@ -1,0 +1,14 @@
+{
+  "name": "playwright-automation-test",
+  "version": "1.0.0",
+  "repository": "git@github.com:lorainegarutti/playwright-automation-test.git",
+  "author": "lorainegarutti <loraine.garutti@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.32.2"
+  },
+  "scripts": {
+    "test:e2e": "yarn playwright test",
+    "test:e2e:open:report": "yarn playwright show-report reports"
+  }
+}
