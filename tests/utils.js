@@ -9,6 +9,7 @@ const logIn = async (credentials, page) => {
 
 const addItemToCart = async (cartItemName, page) => {
   const listItemsDescription = page.locator('.inventory_item_description');
+
   // clicks on the 'Add to cart' button from the product which name contains 'Bike Light'
   await listItemsDescription
     .filter({ hasText: cartItemName })
