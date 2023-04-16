@@ -8,7 +8,11 @@ import {
   goToCheckoutPage
 } from './utils';
 
-const cartItemName = 'Bike Light';
+const cartItem = {
+  name: 'Bike Light',
+  price: '9.99',
+  tax: '0.80'
+};
 const credentials = {
   username: 'standard_user',
   password: 'secret_sauce'
@@ -28,31 +32,43 @@ test.describe('Shopping cart', () => {
   });
 
   test('adds item to the cart', async ({ page }) => {
+    // arrange
+    const { name, price } = cartItem;
+
     // action
-    await addItemToCart(cartItemName, page);
+    await addItemToCart(name, page);
     await openShoppingCart(page);
 
     // assertion
-    expect(page.locator('#shopping_cart_container')).toHaveText('1');
-    expect(page.locator('.cart_list')).toContainText(cartItemName);
+    await expect(page.locator('#shopping_cart_container')).toHaveText('1');
+    await expect(page.locator('.cart_list')).toContainText(name);
+    await expect(page.locator('.cart_list')).toContainText(price);
   });
 
   test.describe('when there is product added to shopping cart', () => {
     test.beforeEach(async ({ page }) => {
       // arrange
-      await addItemToCart(cartItemName, page);
+      const { name } = cartItem
+      await addItemToCart(name, page);
       await openShoppingCart(page);
       await goToCheckoutPage(page);
     });
 
     test('proceeds through checkout page with valid information', async ({ page }) => {  
+      // arrange
+      const { price, tax } = cartItem
+      // transforms strings into numbers and then return the sum with two decimal places
+      const totalPrice = (parseFloat(price) + parseFloat(tax)).toFixed(2)
+
       // act 
       await fillFormWithPersonalInformation(personalInformation, page);
       
       // assert
-      await expect(page.getByText('Payment Information')).toBeVisible();
-      await expect(page.getByText('Shipping Information')).toBeVisible();
-      await expect(page.getByText('Price Total')).toBeVisible();
+      await expect(page.getByText('SauceCard')).toBeVisible();
+      await expect(page.getByText('Free Pony Express Delivery!')).toBeVisible();
+      await expect(page.locator('.summary_info')).toContainText(price);
+      await expect(page.locator('.summary_info')).toContainText(tax);
+      await expect(page.locator('.summary_info')).toContainText(totalPrice);
     });
     
     test('shows success message when shopping is completed', async ({ page }) => {
